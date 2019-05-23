@@ -8,7 +8,6 @@ window.addEventListener('load', () => {
         const tempDesc = document.querySelector('.temperature-description');
         const degreeSection = document.querySelector('.degree-section');
         const degreeUnit = document.querySelector('.temperature-degree-unit');
-        const icon = document.querySelector('.location-icon');
 
         // Convert temp functions
         const convertToCelsius = tempF => {
@@ -37,16 +36,20 @@ window.addEventListener('load', () => {
                         fetch(api)
                                 .then(response => response.json())
                                 .then(data => {
-                                        console.log(data);
+                                        const { icon } = data.currently;
+
+                                        // Set DOM El
                                         tempDesc.textContent = `${data.daily.summary}`;
                                         temp.textContent = `${Math.round(data.currently.temperature)}`;
                                         timezone.textContent = `${data.timezone}`;
-                                        icon.textContent = `${data.currently.icon}`;
+
+                                        // Set Icon
+                                        setIcons(icon, document.querySelector('.icon'));
                                 });
                 });
         } else {
                 alert(
-                        `This weather app needs your current location to get your weather data. Please refresh and click on 'allow'. Otherwise, no weather for you.`
+                        `This weather app needs your current location to get your weather data. Please reset and allow location. Otherwise, no weather for you.`
                 );
         }
 
@@ -57,7 +60,7 @@ window.addEventListener('load', () => {
                         degreeUnit.textContent = 'C';
                         temp.textContent = tempC;
 
-                        // ----Not Working Yet. Search weather description for temp and replace with converted ------//
+                        // ----Not Working Yet. Search weather description for temp and replace with converted (doesn't handle negative numbers properly) ------//
                         // const tempDescTemp = tempDesc.textContent.match(/[\d]+/)[0];
                         // tempDesc.textContent = tempDesc.textContent.replace(/[\d]+/, convertToCelsius(tempDescTemp));
                         // const indexDegree = tempDesc.textContent.match(/\u00B0/).index + 1;
@@ -78,4 +81,11 @@ window.addEventListener('load', () => {
                         // tempDesc.textContent = arraySwitch.join('');
                 }
         });
+
+        function setIcons(icon, iconID) {
+                const skycons = new Skycons({ color: 'white' });
+                const currentIcon = icon.replace(/-/g, '_').toUpperCase();
+                skycons.play();
+                return skycons.set(iconID, Skycons[currentIcon]);
+        }
 });
