@@ -24,6 +24,10 @@ body {
   align-items: center;
 }
 
+.location-icon {
+  margin: 5vw;
+}
+
 .temperature {
   flex-direction: column;
 }
@@ -31,6 +35,7 @@ body {
 .degree-section {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .degree-section span {
