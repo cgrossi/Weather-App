@@ -9,7 +9,7 @@ window.addEventListener('load', () => {
         const degreeSection = document.querySelector('.degree-section');
         const degreeUnit = document.querySelector('.temperature-degree-unit');
 
-        // Convert temp functions
+        // Helper functions
         const convertToCelsius = tempF => {
                 if (typeof tempF === 'string') {
                         return Math.round((+tempF - 32) * (5 / 9));
@@ -23,6 +23,12 @@ window.addEventListener('load', () => {
                 }
                 return Math.round(tempC * (9 / 5) + 32);
         };
+
+        // Random Background Color
+        const randomHue = Math.floor(Math.random() * 255);
+        document.querySelector(
+                '#body'
+        ).style.background = `linear-gradient(hsl(${randomHue}, 60%, 67%), hsl(${randomHue}, 69%, 39%))`;
 
         // API Call
         if (navigator.geolocation) {
@@ -41,10 +47,23 @@ window.addEventListener('load', () => {
                                         // Set DOM El
                                         tempDesc.textContent = `${data.daily.summary}`;
                                         temp.textContent = `${Math.round(data.currently.temperature)}`;
-                                        timezone.textContent = `${data.timezone}`;
+                                        // timezone.textContent = `${data.timezone}`;
 
                                         // Set Icon
                                         setIcons(icon, document.querySelector('.icon'));
+                                });
+                        // Use locationiq api to get more accurate location name
+                        fetch(
+                                `https://us1.locationiq.com/v1/reverse.php?key=pk.2f7f54f24e9ad2652933e1235f219c4d&lat=${lat}&lon=${long}&format=json`
+                        )
+                                .then(response => response.json())
+                                .then(data => {
+                                        const { city, state, county, country } = data.address;
+                                        if (city) {
+                                                timezone.textContent = `${city}, ${state}, ${country}`;
+                                        } else if (!city) {
+                                                timezone.textContent = `${county}, ${state}, ${country}`;
+                                        }
                                 });
                 });
         } else {

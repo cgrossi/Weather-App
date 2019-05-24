@@ -11,7 +11,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background: linear-gradient(rgb(119, 197, 221), rgb(31, 118, 168));
+  background: linear-gradient(hsl(255, 60%, 67%), hsl(255, 69%, 39%));
   color: white;
 }
 
@@ -36,13 +36,13 @@ body {
   display: flex;
   align-items: center;
   cursor: pointer;
-}
-
-.degree-section span {
-  margin: 10px;
   font-size: 2rem;
 }
 
 .degree-section h2 {
   font-size: 2.5rem;
+}
+
+.degree {
+  margin-left: 8px;
 }
