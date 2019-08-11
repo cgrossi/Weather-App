@@ -8,6 +8,7 @@ window.addEventListener('load', () => {
         const tempDesc = document.querySelector('.temperature-description');
         const degreeSection = document.querySelector('.degree-section');
         const degreeUnit = document.querySelector('.temperature-degree-unit');
+        const degreeSpan = document.querySelector('.degree-section .degree')
 
         // Helper functions
         const convertToCelsius = tempF => {
@@ -61,8 +62,12 @@ window.addEventListener('load', () => {
                                         const { city, state, county, country } = data.address;
                                         if (city) {
                                                 timezone.textContent = `${city}, ${state}, ${country}`;
+                                                degreeUnit.textContent = 'F'
+                                                degreeSpan.innerHTML = '&#176;'
                                         } else if (!city) {
                                                 timezone.textContent = `${county}, ${state}, ${country}`;
+                                                degreeUnit.textContent = 'F'
+                                                degreeSpan.innerHTML = '&#176;'
                                         }
                                 });
                 });
